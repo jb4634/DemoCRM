@@ -1,7 +1,8 @@
-package com.podjetje.democrm.service;
+package com.podjetje.democrm.service.impl;
 
 import com.podjetje.democrm.entity.Customer;
 import com.podjetje.democrm.repository.CustomerRepository;
+import com.podjetje.democrm.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -59,5 +60,10 @@ public class CustomerServiceImpl implements CustomerService {
         }else{
             return customerRepository.findCustomersByFirstNameAndLastName(firstName, lastName);
         }
+    }
+
+    @Override
+    public Customer getCustomerById(Integer id) {
+        return customerRepository.findCustomerById(id);
     }
 }

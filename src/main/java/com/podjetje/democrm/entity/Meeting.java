@@ -3,6 +3,7 @@ package com.podjetje.democrm.entity;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 public class Meeting {
@@ -18,6 +19,9 @@ public class Meeting {
     @ManyToOne
     @JoinColumn
     private Customer customer;
+
+    @OneToMany(mappedBy = "meeting", cascade = CascadeType.ALL)
+    private List<Conclusion> conclusions;
 
     public Meeting(String location, LocalDate date, LocalTime timeStart, LocalTime timeEnd) {
         this.location = location;

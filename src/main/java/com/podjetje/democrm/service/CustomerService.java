@@ -13,4 +13,5 @@ public interface CustomerService{
     void updateCustomer(Customer customer);
     List<Customer> getAllCustomers();
     List<Customer> getCustomersByName(String firstName, String lastName);
+    Customer getCustomerById(Integer id);
 }

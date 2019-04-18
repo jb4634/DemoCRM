@@ -1,7 +1,7 @@
 package com.podjetje.democrm;
 
 import com.podjetje.democrm.entity.Customer;
-import com.podjetje.democrm.repository.CustomerRepository;
+import com.podjetje.democrm.service.impl.CustomerServiceImpl;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Label;
@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 @SpringComponent
 @UIScope
 public class CustomerEditor extends FormLayout {
-    private final CustomerRepository repository;
+    private final CustomerServiceImpl customerService;
 
     /**
      * The currently edited customer
@@ -41,8 +41,8 @@ public class CustomerEditor extends FormLayout {
     private ChangeHandler changeHandler;
 
     @Autowired
-    public CustomerEditor(CustomerRepository repository) {
-        this.repository = repository;
+    public CustomerEditor(CustomerServiceImpl customerService) {
+        this.customerService = customerService;
 
         add(firstName, lastName, phone, email, actions);
 
@@ -61,12 +61,12 @@ public class CustomerEditor extends FormLayout {
     }
 
     void delete() {
-        repository.delete(customer);
+        customerService.deleteCustomer(customer);
         changeHandler.onChange();
     }
 
     void save() {
-        repository.save(customer);
+        customerService.saveCustomer(customer);
         changeHandler.onChange();
     }
 
@@ -82,7 +82,7 @@ public class CustomerEditor extends FormLayout {
         final boolean persisted = c.getId() != null;
         if (persisted) {
             // Find fresh entity for editing
-            customer = repository.findById(c.getId()).get();
+            customer = customerService.getCustomerById(c.getId());
         }
         else {
             customer = c;
