@@ -8,7 +8,7 @@ A demo CRM project with Spring Boot and Vaadin 12.
 
 ### Configuration
 * Open terminal
-* Start docker container with mysql database and create the database:
+* Start docker container with mysql database and create a database:
   * $ docker run --name mysql1 -e MYSQL_ROOT_PASSWORD=1234 -d -p 3306:3306 mysql:latest
   * $ docker exec -it mysql1 mysql -uroot -p
   * mysql> $ create database db_podjetje
@@ -16,7 +16,7 @@ A demo CRM project with Spring Boot and Vaadin 12.
 * [Optional] Configuration for connecting to database can be changed in ./src/main/resources/application.properties
 * [Optional] When starting the application for the first time, on an empty database,
              we can fill the database with dummy data with uncommenting the line in ./src/main/java/com/podjetje/democrm/DemocrmApplication:
-             * //  fillTheDatabase(conclusionTypeRepository, customerRepository, meetingRepository, conclusionRepository);
+  * fillTheDatabase(conclusionTypeRepository, customerRepository, meetingRepository, conclusionRepository);
 
 ### Building
 With IDE:
@@ -32,7 +32,7 @@ With IDE:
   * [Optional] Possible to run with plugin: $ mvn spring-boot:run
     
 ### Using the application
-The application is accessible on "localhost:8080"
+The application is accessible with a web browser on "localhost:8080".
 
 Functionalities:
 * "Filter" filters Customers by first and/or last name
