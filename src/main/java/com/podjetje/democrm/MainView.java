@@ -85,13 +85,23 @@ public class MainView extends HorizontalLayout {
 
     }
 
+    // Method that adds Customers components to the layout
     private void showCustomersGrid(){
-        // build layout
-        HorizontalLayout actions = new HorizontalLayout(filterFirstNameText, filterLastNameText, filterBtn, clearBtn, addNewBtn);
+        // Initializes layout -- TextFields and for filtering and buttons for filtering and creating new customer
+        HorizontalLayout actions = new HorizontalLayout(filterFirstNameText, filterLastNameText, filterBtn, clearBtn,
+                addNewBtn);
+
+        // Add action, grid and editor components to layout
         customersLayout.add(actions, customersGrid, customerEditor);
+
+        // Fill filter TextFields with place holders.
         filterFirstNameText.setPlaceholder("filter by first name...");
         filterLastNameText.setPlaceholder("filter by last name...");
+
+        // Set which Grid Columns are shown
         customersGrid.setColumns("id", "firstName", "lastName", "email", "phone");
+
+        // Fill Customer Grid with data from backend
         updateCustomersList();
 
         // Connect selected Customer to editor or hide if none is selected
@@ -108,24 +118,33 @@ public class MainView extends HorizontalLayout {
             customerEditor.setVisible(false);
             updateCustomersList();
         });
+
+        // Refresh the data from backend with given filters
         filterBtn.addClickListener(e -> updateCustomersList());
+
+        // Clears current filter settings
         clearBtn.addClickListener(e -> clearFilter());
 
     }
 
+    // Method that adds Meeting components to the layout
     private void showMeetingsGrid(){
-        // build layout
+        // Add button, grid and editor components to the layout
         meetingsLayout.add(addNewMeetingBtn, meetingsGrid, meetingEditor);
+
+        // Set which columns are shown
         meetingsGrid.setColumns("id", "location","date", "timeStart", "timeEnd");
         meetingsGrid.addColumn(Meeting::getCustomerName).setHeader("Customer");
+
+        // Fill Meetings Grid with data from backend
         updateMeetingsList();
 
-        // Connect selected Customer to editor or hide if none is selected
+        // Connect selected Meeting to editor or hide if none is selected
         meetingsGrid.asSingleSelect().addValueChangeListener(e -> {
             meetingEditor.editMeeting(e.getValue());
         });
 
-        // Instantiate and edit new Customer the new button is clicked
+        // Instantiate and edit new Meeting the new button is clicked
         addNewMeetingBtn.addClickListener(e -> meetingEditor.editMeeting(new Meeting()));
 
         // Listen changes made by the editor, refresh data from backend
@@ -135,20 +154,24 @@ public class MainView extends HorizontalLayout {
         });
     }
 
+    // Refresh the data from backend and fill the Meetings Grid with Meetings for selected Customer
     private void updateMeetingsList() {
         Customer selectedCustomer = customersGrid.asSingleSelect().getValue();
         if (selectedCustomer!=null){
             meetingsGrid.setItems(meetingService.getMeetingByCustomer(selectedCustomer));
         }
+        // If no Customer is selected the Meetings Grid is empty
         else{
             meetingsGrid.setItems();
         }
     }
 
+    // Refresh the data from backend and fill the Customers Grid
     private void updateCustomersList() {
         customersGrid.setItems(customerService.getCustomersByName(filterFirstNameText.getValue(),filterLastNameText.getValue()));
     }
 
+    // Clear current filter settings for Customers Grid and refresh data from backend
     private void clearFilter(){
         filterFirstNameText.setValue("");
         filterLastNameText.setValue("");

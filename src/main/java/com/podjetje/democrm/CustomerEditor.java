@@ -65,13 +65,13 @@ public class CustomerEditor extends FormLayout {
         setVisible(false);
     }
 
-    // Deletes the Customer and refreshes with changeHandler
+    // Delete Customer and refreshes with changeHandler
     void delete() {
         customerService.deleteCustomer(customer);
         changeHandler.onChange();
     }
 
-    // Saves the Customer and refreshes with changeHanlder
+    // Save Customer and refreshes with changeHanlder
     void save() {
         customerService.saveCustomer(customer);
         changeHandler.onChange();
@@ -81,7 +81,7 @@ public class CustomerEditor extends FormLayout {
         void onChange();
     }
 
-
+    // Updates current or saves new Customer to backend
     public final void editCustomer(Customer c) {
         // Fallback if the argument is null
         if (c == null) {

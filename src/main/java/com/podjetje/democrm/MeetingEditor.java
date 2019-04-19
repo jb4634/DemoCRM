@@ -34,17 +34,20 @@ public class MeetingEditor extends FormLayout {
      */
     private Meeting meeting;
 
-    /* Fields to edit properties in Customer entity */
+    /* Fields to edit properties in Meeting entity */
     TextField location = new TextField("Location");
     ComboBox<Customer> customerComboBox = new ComboBox<>();
     DatePicker datePicker = new DatePicker("Date");
     TimePicker startTimePicker = new TimePicker("Begining");
     TimePicker endTimePicker = new TimePicker("End");
+
+    // Label for showing information
     Label infoLabel = new Label();
 
-    /* Action buttons */
+    // Button to show the form for creating a new Meeting
     Button save = new Button("Save", VaadinIcon.CHECK.create());
 
+    // Binder that bindes form fields to currently edited meeting
     Binder<Meeting> binder = new Binder<>(Meeting.class);
     private ChangeHandler changeHandler;
 
@@ -57,41 +60,52 @@ public class MeetingEditor extends FormLayout {
         this.conclusionTypeService = conclusionTypeService;
         this.customerService = customerService;
 
+        // Add fields to edit Meeting properties to the layout
         add(customerComboBox, location, datePicker, startTimePicker, endTimePicker, save);
 
-        // bind using naming convention
+        // Bind form fields to matching Meeting properties
         binder.forField(location).bind(Meeting::getLocation,Meeting::setLocation);
         binder.forField(datePicker).bind(Meeting::getDate,Meeting::setDate);
         binder.forField(startTimePicker).bind(Meeting::getTimeStart,Meeting::setTimeStart);
         binder.forField(endTimePicker).bind(Meeting::getTimeEnd,Meeting::setTimeEnd);
         binder.forField(customerComboBox).bind(Meeting::getCustomer,Meeting::setCustomer);
         customerComboBox.setLabel("Customer");
-        customerComboBox.setItemLabelGenerator(Customer::getFullName);
-        customerComboBox.setItems(customerService.getAllCustomers());
+        customerComboBox.setItemLabelGenerator(Customer::getFullName); // Present Customer as firstName+" "+lastName
+        customerComboBox.setItems(customerService.getAllCustomers()); // Fill ComboBox with data from backend
+        customerComboBox.addFocusListener(e -> updateCustomersList()); // Refresh with data from backend on focus
 
-        customerComboBox.addFocusListener(e -> updateCustomersList());
+        save.getElement().getThemeList().add("primary"); // blue
 
-        save.getElement().getThemeList().add("primary");
-
-        // wire action buttons to save, delete and reset
+        // Wire button to save action
         save.addClickListener(e -> save());
+
+        // Hide form when initialized
         setVisible(false);
     }
 
+    // Refresh Customers in ComboBox with data from backend
     private void updateCustomersList() {
         customerComboBox.setItems(customerService.getAllCustomers());
     }
 
 
+    // Save Customer to backend and clear the fields
     void save() {
         try {
+            // Save field values as currently edited meeting
             binder.writeBean(meeting);
+
+            // Save meeting to backend
             meetingService.saveMeeting(meeting);
+
             changeHandler.onChange();
+
+            // Clear fields
             meeting = new Meeting();
-            meeting.setTimeEnd(LocalTime.now());
-            meeting.setTimeStart(LocalTime.now());
+            meeting.setTimeEnd(LocalTime.now());    //  TimePicker value cannot be set to null
+            meeting.setTimeStart(LocalTime.now());  //  Set to current time
             binder.readBean(meeting);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -101,15 +115,21 @@ public class MeetingEditor extends FormLayout {
         void onChange();
     }
 
+    // Updates current or saves new Meeting to backend
     public final void editMeeting(Meeting m) {
+        // Fallback if the argument is null
         if (m == null) {
             setVisible(false);
             return;
         }
+        // Checks if given Customer exists in the database
         final boolean persisted = m.getId() != null;
         if (persisted) {
-            // Find fresh entity for editing
+            // Find fresh entity for editing as currently edited customer -- update
             meeting = meetingService.getMeetingById(m.getId());
+
+            // TimePicker value cannot be set to null
+            // If time in database is null --> change to current time
             if(meeting.getTimeStart()==null)
                 meeting.setTimeStart(LocalTime.now());
             if(meeting.getTimeEnd()==null)
@@ -117,20 +137,14 @@ public class MeetingEditor extends FormLayout {
             binder.readBean(meeting);
         }
         else {
+            // Sets newly created object Customer as currently edited customer -- save
             meeting = m;
         }
-
-        // Bind customer properties to similarly named fields
-        // Could also use annotation or "manual binding" or programmatically
-        // moving values from fields to entities before saving
-
-
         setVisible(true);
     }
 
     public void setChangeHandler(ChangeHandler h) {
-        // ChangeHandler is notified when either save or delete
-        // is clicked
+        // ChangeHandler is notified when either save or delete is clicked
         changeHandler = h;
     }
 }
