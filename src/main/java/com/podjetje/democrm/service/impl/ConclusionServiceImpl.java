@@ -15,26 +15,31 @@ public class ConclusionServiceImpl implements ConclusionService {
     @Autowired
     ConclusionRepository conclusionRepository;
 
+    // Creates new Conclusion in the database
     @Override
     public void saveConclusion(Conclusion conclusion) {
         conclusionRepository.save(conclusion);
     }
 
+    // Updates the Conlcusion in the database
     @Override
     public void updateConclusion(Conclusion conclusion) {
         conclusionRepository.save(conclusion);
     }
 
+    // Deletes the Conclusion from the database
     @Override
     public void deleteConclusion(Conclusion conclusion) {
         conclusionRepository.delete(conclusion);
     }
 
+    // Returns all of the Conclusions from the database
     @Override
     public List<Conclusion> getAllConclusions() {
         return conclusionRepository.findAll();
     }
 
+    // Returns the Conclusions made at the given Meeting from the database
     @Override
     public List<Conclusion> getConclusionsByMeeting(Meeting meeting) {
         return conclusionRepository.findConclusionsByMeeting(meeting);

@@ -3,6 +3,9 @@ package com.podjetje.democrm.entity;
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ *  Customer is represented with fields: firtName, lastName, email and phone.
+ */
 @Entity
 public class Customer {
 
@@ -18,6 +21,8 @@ public class Customer {
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private List<Meeting> meetings;
 
+    // Constructors
+
     public Customer(String firstName, String lastName, String email, String phone) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -26,6 +31,8 @@ public class Customer {
     }
 
     public Customer(){};
+
+    // Getters and setters
 
     public Integer getId() {
         return id;

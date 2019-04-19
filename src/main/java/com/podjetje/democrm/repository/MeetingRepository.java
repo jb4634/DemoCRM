@@ -8,7 +8,9 @@ import java.util.List;
 
 public interface MeetingRepository extends JpaRepository<Meeting, Integer> {
 
-    List<Meeting> findByCustomer_FirstName(String firstName);
-    List<Meeting> findByCustomer(Customer customer);
+    // Lists Meetings for given Customer and orders descending by date and timeStart
+    List<Meeting> findByCustomerOrderByDateDescTimeStartDesc(Customer customer);
+
+    // Finds Meeting by id
     Meeting findMeetingById(Integer id);
 }

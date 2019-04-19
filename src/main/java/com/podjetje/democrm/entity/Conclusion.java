@@ -2,6 +2,11 @@ package com.podjetje.democrm.entity;
 
 import javax.persistence.*;
 
+/***
+ *  Entity Conclusion represents the conclusion that was made on the Meeting 'meeting'.
+ *  It can be one of the 'conclusionTypes': sestanek, pogodba, račun
+ *  with details in 'content'.
+ */
 @Entity
 public class Conclusion {
 
@@ -9,15 +14,20 @@ public class Conclusion {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    // Type of the conclusion: sestanek, pogodba, račun
     @ManyToOne
     @JoinColumn
     private ConclusionType conclusionType;
+
 
     @ManyToOne
     @JoinColumn
     private Meeting meeting;
 
+    // The content of the conclusion
     private String content;
+
+    // Constructors
 
     public Conclusion(Meeting meeting, ConclusionType conclusionType, String content) {
         this.meeting = meeting;
@@ -27,6 +37,8 @@ public class Conclusion {
 
     public Conclusion() {
     }
+
+    // Getters and setters
 
     public Integer getId() {
         return id;

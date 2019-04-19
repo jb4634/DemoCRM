@@ -15,45 +15,72 @@ import com.vaadin.flow.router.Route;
 
 
 /**
- * The main view contains a button and a click listener.
+ * The main view contains a Grid with all the Customers and possible first and last name filtering,
+ * CustomerEditor with CRUD operations on Customers,
+ * Grid with all the Meetings for selected Customer
+ * and MeetingEditor with create and update operations on Meetings.
  */
 @Route("")
 public class MainView extends HorizontalLayout {
+
     private final CustomerService customerService;
     private final MeetingService meetingService;
     private final ConclusionTypeService conclusionTypeService;
-    final Grid<Customer> customersGrid = new Grid<>(Customer.class);
-    final Grid<Meeting> meetingsGrid = new Grid<>(Meeting.class);
+
     private final CustomerEditor customerEditor;
     private final MeetingEditor meetingEditor;
+
+    // Grid that shows Customers
+    final Grid<Customer> customersGrid = new Grid<>(Customer.class);
+
+    // Grid that shows Meetings for selected Customer
+    final Grid<Meeting> meetingsGrid = new Grid<>(Meeting.class);
+
+    // Text fields for filtering by name in Customer Grid
     private TextField filterFirstNameText = new TextField();
     private TextField filterLastNameText = new TextField();
-    private final Button filterBtn;
-    private final Button clearBtn;
-    private final Button addNewBtn;
+
+    // Action buttons for Customer Grid
+    private final Button filterBtn; // Filters list of customers
+    private final Button clearBtn; // Clears current filters
+    private final Button addNewBtn; // Shows form to create new Customer
+
+    // Button for showing form to create new Meeting
     private final Button addNewMeetingBtn;
 
+    // VerticalLayout containing Customer Grid and CustomerEditor
     private final VerticalLayout customersLayout;
+    // VerticalLayout containing Meeting Grid and MeetingEditor
     private final VerticalLayout meetingsLayout;
 
 
     public MainView(CustomerService customerService, CustomerEditor customerEditor, MeetingService meetingService,
                     MeetingEditor meetingEditor, ConclusionTypeService conclusionTypeService){
+
+        // Initialize services and editors
         this.customerService = customerService;
         this.customerEditor = customerEditor;
         this.meetingService = meetingService;
         this.meetingEditor = meetingEditor;
         this.conclusionTypeService = conclusionTypeService;
-        this.filterBtn = new Button("Filter", VaadinIcon.PLUS.create());
+
+        // Initializes Buttons with labels and icons
+        this.filterBtn = new Button("Filter", VaadinIcon.FILTER.create());
         this.clearBtn = new Button("Clear filter");
         this.addNewBtn = new Button("New customer", VaadinIcon.PLUS.create());
         this.addNewMeetingBtn = new Button("New Meeting", VaadinIcon.PLUS.create());
 
+        // Initializes both VerticalLayouts
         customersLayout = new VerticalLayout();
         meetingsLayout = new VerticalLayout();
 
+        // Adds both layouts to the current Layout
         add(customersLayout,meetingsLayout);
+
+        // Show Components of CustomerLayout
         showCustomersGrid();
+
+        // Show Components of MeetingsLayout
         showMeetingsGrid();
 
     }

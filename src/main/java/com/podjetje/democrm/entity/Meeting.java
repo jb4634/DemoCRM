@@ -5,23 +5,37 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
+/**
+ *  Meeting is represented with the location, date, timeStart, timeEnd and customer.
+ */
 @Entity
 public class Meeting {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    // Location of the meeting
     private String location;
+
+    // Date of the meeting
     private LocalDate date;
+
+    //Time timeStart represents the beginning of the meeting
     private LocalTime timeStart;
+
+    //Time timeEnd represents the end of the meeting
     private LocalTime timeEnd;
 
+    // Customer that attended the meeting
     @ManyToOne
     @JoinColumn
     private Customer customer;
 
+    // List of all the conclusions at the meeting
     @OneToMany(mappedBy = "meeting", cascade = CascadeType.ALL)
     private List<Conclusion> conclusions;
+
+    // Constructors
 
     public Meeting(String location, LocalDate date, LocalTime timeStart, LocalTime timeEnd) {
         this.location = location;
@@ -40,6 +54,8 @@ public class Meeting {
 
     public Meeting() {
     }
+
+    // Getters and Setters
 
     public Integer getId() {
         return id;

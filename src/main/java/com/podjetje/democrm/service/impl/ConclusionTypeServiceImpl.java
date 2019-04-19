@@ -14,6 +14,7 @@ public class ConclusionTypeServiceImpl implements ConclusionTypeService {
     @Autowired
     ConclusionTypeRepository conclusionTypeRepository;
 
+    // Returns all possible ConclusionTypes from the database
     @Override
     public List<ConclusionType> getAllConclusionTypes(){
         return conclusionTypeRepository.findAll();

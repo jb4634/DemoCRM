@@ -51,6 +51,7 @@ public class MeetingEditor extends FormLayout {
     @Autowired
     public MeetingEditor(MeetingServiceImpl meetingService, ConclusionServiceImpl conclusionService,
                          ConclusionTypeService conclusionTypeService, CustomerService customerService) {
+
         this.meetingService = meetingService;
         this.conclusionService = conclusionService;
         this.conclusionTypeService = conclusionTypeService;
@@ -59,7 +60,6 @@ public class MeetingEditor extends FormLayout {
         add(customerComboBox, location, datePicker, startTimePicker, endTimePicker, save);
 
         // bind using naming convention
-        //binder.bindInstanceFields(this);
         binder.forField(location).bind(Meeting::getLocation,Meeting::setLocation);
         binder.forField(datePicker).bind(Meeting::getDate,Meeting::setDate);
         binder.forField(startTimePicker).bind(Meeting::getTimeStart,Meeting::setTimeStart);
