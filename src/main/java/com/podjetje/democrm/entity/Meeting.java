@@ -57,14 +57,6 @@ public class Meeting {
         this.location = location;
     }
 
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
     public LocalTime getTimeStart() {
         return timeStart;
     }
@@ -87,5 +79,25 @@ public class Meeting {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public List<Conclusion> getConclusions() {
+        return conclusions;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public String getCustomerName(){
+        if(this.customer==null){
+            return null;
+        }
+        else
+            return customer.getFullName();
     }
 }

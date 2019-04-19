@@ -11,4 +11,5 @@ public interface MeetingService {
     void deleteMeeting(Meeting meeting);
     List<Meeting> getAllMeetings();
     List<Meeting> getMeetingByCustomer(Customer customer);
+    Meeting getMeetingById(Integer id);
 }

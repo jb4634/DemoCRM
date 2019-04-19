@@ -10,4 +10,5 @@ public interface MeetingRepository extends JpaRepository<Meeting, Integer> {
 
     List<Meeting> findByCustomer_FirstName(String firstName);
     List<Meeting> findByCustomer(Customer customer);
+    Meeting findMeetingById(Integer id);
 }

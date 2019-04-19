@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.List;
-
 @Controller
 @RequestMapping(path="/demo")
 public class MainController {
@@ -33,18 +31,18 @@ public class MainController {
         return "Saved";
     }
 
-    @GetMapping(path="/fillMeetings")
-    public @ResponseBody  String fillMeetings (){
-        List<Customer> customers = customerRepository.findCustomersByFirstName("Jan");
-        Meeting m1 = new Meeting("V kocevju",null, null, null, customers.get(0));
-        Meeting m2 = new Meeting("V ljubljani",null, null, null, customers.get(0));
-        Meeting m3 = new Meeting("V kocevju",null, null, null, customers.get(1));
-
-        meetingRepository.save(m1);
-        meetingRepository.save(m2);
-        meetingRepository.save(m3);
-        return "Saved meetings";
-    }
+//    @GetMapping(path="/fillMeetings")
+//    public @ResponseBody  String fillMeetings (){
+//        List<Customer> customers = customerRepository.findCustomersByFirstName("Jan");
+//        Meeting m1 = new Meeting("V kocevju",null, null, null, customers.get(0));
+//        Meeting m2 = new Meeting("V ljubljani",null, null, null, customers.get(0));
+//        Meeting m3 = new Meeting("V kocevju",null, null, null, customers.get(1));
+//
+//        meetingRepository.save(m1);
+//        meetingRepository.save(m2);
+//        meetingRepository.save(m3);
+//        return "Saved meetings";
+//    }
 
     @GetMapping(path="/all")
     public @ResponseBody Iterable<Customer> getAllCustomers(){

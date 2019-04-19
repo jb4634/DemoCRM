@@ -67,4 +67,7 @@ public class Customer {
         this.phone = phone;
     }
 
+    public String getFullName() {
+        return this.firstName+" "+this.lastName;
+    }
 }
